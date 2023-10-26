@@ -419,6 +419,15 @@ messages:
    "Some skills may require certain stats to be depleted."
    "return TRUE if they were successfully depleted."
    {
+      local iFlags;
+
+      // Don't pay costs if not able to fight.
+      iFlags = PFLAG_PHASED | PFLAG_NO_FIGHT | PFLAG_NO_MAGIC;
+      if Send(who,@CheckPlayerFlag,#flag=iFlags)
+      {
+         return FALSE;
+      }
+
       if NOT (bSuccess OR Send(SETTINGS_OBJECT,@NoFizzles))
       {
          Send(self,@SkillFailed,#who=who);
