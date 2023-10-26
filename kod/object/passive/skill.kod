@@ -846,6 +846,8 @@ messages:
    CheckPlayerPerformAttack(who=$,lTargets=$)
    "Checks to see if player can attack said targets."
    {
+      local iFlags;
+
       // Don't perform the ability if there are no valid targets.
       if (lTargets = $ OR Length(lTargets) = 0)
          AND (Send(self,@GetNumSkillTargets) <> 0)
@@ -853,6 +855,13 @@ messages:
          Send(who,@MsgSendUser,#message_rsc=skill_no_targets,
             #parm1=Send(self,@GetName));
 
+         return FALSE;
+      }
+
+      // Don't perform the ability if not able to fight.
+      iFlags = PFLAG_PHASED | PFLAG_NO_FIGHT | PFLAG_NO_MAGIC;
+      if Send(who,@CheckPlayerFlag,#flag=iFlags)
+      {
          return FALSE;
       }
 
