@@ -1098,6 +1098,27 @@ messages:
       propagate;
    }
 
+   CanBeWebbed()
+   {
+      local i, oRoom, oSpell;
+
+      oRoom = Send(self,@GetOwner);
+      if oRoom <> $
+         AND IsClass(oRoom,&Room)
+      {
+         foreach i in Send(oRoom,@GetEnchantmentList)
+         {
+            oSpell = Nth(i,2);
+            if IsClass(oSpell,&Truce)
+            {
+               return FALSE;
+            }
+         }
+      }
+
+      return TRUE;
+   }
+
    Delete()
    {
       local i;
