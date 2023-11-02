@@ -519,7 +519,7 @@ int C_Broadcast(int object_id,local_var_type *local_vars,
       if (i != num_normal_parms-1)
 		  sprintf(buf+strlen(buf),",");
    }
-   xprintf("%s\n",buf);
+   xprintln(buf);
    return NIL;
 }
 

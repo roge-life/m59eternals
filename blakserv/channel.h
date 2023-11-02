@@ -39,6 +39,6 @@ void eprintf(const char *fmt,...);
 void bprintf(const char *fmt,...);  /* blakod errors, goes to channel e */
 void lprintf(const char *fmt,...);
 void gprintf(const char *fmt,...);
-void xprintf(const char *fmt,...);
+void xprintln(char *s);
 
 #endif

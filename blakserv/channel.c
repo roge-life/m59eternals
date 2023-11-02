@@ -189,21 +189,11 @@ void aprintf(const char *fmt, ...)
    AdminBufferSend(s, strlen(s));
 }
 
-void xprintf(const char *fmt,...)
+void xprintln(char *s)
 {
-   char s[BUFFER_SIZE];
-   va_list marker;
-
-   sprintf(s,"%s | ",TimeStr(GetTime()));
-
-   va_start(marker,fmt);
-   vsprintf(s+strlen(s),fmt,marker);
-   va_end(marker);
-   
    if (s[strlen(s)-1] != '\n')
-      strcat(s,"\n");
+      strcat(s,"\r\n");
 
-   // Write to the broadcast channel
    if (channel[CHANNEL_X].file != NULL) {
       fwrite(s, 1, strlen(s), channel[CHANNEL_X].file);
       fflush(channel[CHANNEL_X].file);
