@@ -212,7 +212,7 @@ config_table_type config_table[] =
 { SERVICE_PASSWORD,       T, "Password",      CONFIG_STR,   "b58Iz3xp" },
 
 { MYSQL_GROUP,            F, "[MySQL]",       CONFIG_GROUP, "" },
-{ MYSQL_ENABLED,          F, "Enabled",       CONFIG_BOOL,  "No" },
+{ MYSQL_ENABLED,          F, "Enabled",       CONFIG_BOOL,  "yes" },
 { MYSQL_USERNAME,         F, "Username",      CONFIG_STR,   "root" },
 { MYSQL_PASSWORD,         F, "Password",      CONFIG_STR,   "" },
 { MYSQL_HOST,             F, "Host",          CONFIG_STR,   "localhost" },

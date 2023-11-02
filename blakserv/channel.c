@@ -194,14 +194,22 @@ void xprintf(const char *fmt,...)
    char s[BUFFER_SIZE];
    va_list marker;
 
+   sprintf(s,"%s | ",TimeStr(GetTime()));
+
    va_start(marker,fmt);
-   vsnprintf(s, sizeof(s), fmt, marker);
+   vsprintf(s+strlen(s),fmt,marker);
    va_end(marker);
    
    if (s[strlen(s)-1] != '\n')
       strcat(s,"\n");
 
-   WriteStrChannel(CHANNEL_X,s);
+   // Write to the broadcast channel
+   if (channel[CHANNEL_X].file != NULL) {
+      fwrite(s, 1, strlen(s), channel[CHANNEL_X].file);
+      fflush(channel[CHANNEL_X].file);
+      fclose(channel[CHANNEL_X].file);
+      channel[CHANNEL_X].file = fopen(channel_table[CHANNEL_X].file_name, "ab");
+   }
 }
 
 void WriteStrChannel(int channel_id,char *s)
