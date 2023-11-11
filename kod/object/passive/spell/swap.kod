@@ -105,7 +105,7 @@ messages:
 
    DoSpellEffects(who = $, lTargets = $, iSpellPower=0)
    {
-      local iCol, iRow, iFineCol, iFineRow, oTarget;
+      local iCol, iRow, iFineCol, iFineRow, oRoom, oTarget;
 
       if lTargets = $
       {
@@ -117,18 +117,19 @@ messages:
       oTarget = First(lTargets);
       if IsClass(oTarget,&Battler)
       {
+         oRoom = Send(oTarget,@GetOwner);
          iCol = Send(who,@GetCol);
          iRow = Send(who,@GetRow);
          iFineCol = Send(who,@GetFineCol);
          iFineRow = Send(who,@GetFineRow);
 
-         if Send(who,@ReqSomethingMoved,
+         if Send(oRoom,@ReqSomethingMoved,
                 #what=who,
                 #new_col=Send(oTarget,@GetCol),
                 #new_row=Send(oTarget,@GetRow),
                 #fine_col=Send(oTarget,@GetFineCol),
                 #fine_row=Send(oTarget,@GetFineRow))
-            AND Send(oTarget,@ReqSomethingMoved,
+            AND Send(oRoom,@ReqSomethingMoved,
                 #what=oTarget,
                 #new_col=iCol,
                 #new_row=iRow,
@@ -136,7 +137,7 @@ messages:
                 #fine_row=iFineRow)
          {
 
-            Send(who,@SomethingMoved,
+            Send(oRoom,@SomethingMoved,
                #what=who,
                #new_col=Send(oTarget,@GetCol),
                #new_row=Send(oTarget,@GetRow),
@@ -144,7 +145,7 @@ messages:
                #fine_row=Send(oTarget,@GetFineRow)
             );
 
-            Send(oTarget,@SomethingMoved,
+            Send(oRoom,@SomethingMoved,
                #what=oTarget,
                #new_col=iCol,
                #new_row=iRow,
@@ -154,9 +155,6 @@ messages:
 
             Send(oTarget,@MsgSendUser,#message_rsc=swap_cast_rsc,#parm1=Send(who,@GetName));
             Send(who,@MsgSendUser,#message_rsc=swap_cast_rsc,#parm1=Send(oTarget,@GetName));
-
-            Send(oTarget,@SomethingTurned,#new_angle=Send(oTarget,@GetAngle));
-            Send(who,@SomethingTurned,#new_angle=Send(who,@GetAngle));
             
             return TRUE;
          }
