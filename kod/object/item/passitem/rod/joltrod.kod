@@ -60,11 +60,16 @@ messages:
    "Casts the spell Flash, possibly disrupting enemy trances in the room."
    "Also deletes walls around battler dependent on SETTINGS.kod."
    {
-      local oFlash, lGoodTargets, oOwner, oRoom, oPlayer;
+      local oFlash, lGoodTargets, oOwner, oRoom, oPlayer, oSmoker;
 
       oPlayer = Send(self,@GetOwner);
       oRoom = Send(oPlayer,@GetOwner);
       Send(oRoom,@StaffDeleteWallsAroundBattler,#who=oPlayer);
+
+      oSmoker = Create(&Smoker,#seed=[oPlayer,1,1000,0,0,0,0,0,0]);
+      Send(oRoom,@NewHold,#what=oSmoker,#new_row=Send(oPlayer,@GetRow),#new_col=Send(oPlayer,@GetCol),
+      #fine_row=Send(oPlayer,@GetFineRow),#fine_col=Send(oPlayer,@GetFineCol));
+   
 
       oFlash = Send(SYS,@FindSpellByNum,#num=SID_FLASH);
       lGoodTargets = Send(oFlash,@GetGoodTargets,#who=poOwner,#report=FALSE);

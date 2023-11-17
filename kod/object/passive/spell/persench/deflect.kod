@@ -115,8 +115,11 @@ messages:
    TryDeflect(caster=$,victim=$,oSpell=$)
    "Returns TRUE if the spell is deflected."
    {
-      local i, chance;
+      local i, chance, oReflectFlash, oPlayer, oRoom;
 
+      oPlayer = victim;
+      oRoom = Send(victim,@GetOwner);
+      
       if Send(oSpell,@IsHarmful)
          AND Send(oSpell,@GetNumSpellTargets) = 1
          AND IsClass(oSpell,&AttackSpell)
@@ -133,6 +136,10 @@ messages:
          chance = Send(victim,@GetEnchantedState,#what=self);
          if Random(0,100) < chance
          {
+            oReflectFlash = Create(&ReflectFlash,#seed=[oPlayer,1,400,0,0,0,0,0,0]);
+            Send(oRoom,@NewHold,#what=oReflectFlash,#new_row=Send(oPlayer,@GetRow),#new_col=Send(oPlayer,@GetCol),
+            #fine_row=Send(oPlayer,@GetFineRow),#fine_col=Send(oPlayer,@GetFineCol));
+            
             Send(self,@SendMessageTryDeflectSuccess,#victim=victim,#caster=caster);
             return TRUE;
          }

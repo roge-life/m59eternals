@@ -1,0 +1,77 @@
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
+
+
+////////////////////////////////////////////////////////////////////////////////
+AcidSplash is ActiveWallElement
+
+constants:
+
+   include blakston.khd
+
+resources:
+
+   AcidSplash_name = "a splash of acid"
+   AcidSplash_desc = ""
+   AcidSplash_icon = acidsplash.bgf
+
+classvars:
+
+   vrName = AcidSplash_name
+   vrDesc = AcidSplash_desc
+   vrIcon = AcidSplash_icon
+   //contributes to summoning limit? No, so 0.
+   viLimitCount = 0
+
+   viStart_frame = 1
+   viEnd_frame = 5
+
+   // Lighting flags.  Default "on" and wavering flags
+   viLightFlags = LIGHT_FLAG_ON
+
+   // Light color.
+   viLightColor = LIGHT_YELLOW
+
+properties:
+
+   //animation speed
+   piAnimation = 70
+   // Intensity, from 0-255.
+   piLightIntensity = 200
+   piAnim_speed = 70
+
+   poCaster = $
+
+messages:
+   //gotta override the flickerer
+   SetAnimationSpeed()
+   {
+      piAnim_speed = 70;
+
+      return;
+   }
+
+   GetObjectFlags()
+   {
+      local iFlags;
+
+      iFlags = OF_NOEXAMINE;
+      //Removed OF_FLICKERING and it allowed ANIMATE_ONCE
+      return iFlags;
+   }
+
+   SendAnimation()
+   {
+     
+      AddPacket(1,ANIMATE_CYCLE,4,piAnim_speed,2,viStart_frame,2,viEnd_frame);
+   
+      return;
+   }
+
+end
+////////////////////////////////////////////////////////////////////////////////
