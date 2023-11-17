@@ -66,5 +66,22 @@ messages:
       return;
    }
 
+   DoSpellEffects(what=$,who=$, lTargets=$, state=$,iSpellPower=$,iPowerLevel=100,
+             bItemCast=FALSE, bRing=FALSE, bStun=FALSE,report=TRUE, iDamage=$)
+   {
+      local oTargeted, oRoom, oSplasher;
+
+   oTargeted = First(lTargets);
+   oRoom = Send(oTargeted,@GetOwner);
+
+
+               oSplasher = Create(&AcidSplash,#seed=[oTargeted,1,500,0,0,0,0,0,0]);
+               Send(oRoom,@NewHold,#what=oSplasher,#new_row=Send(oTargeted,@GetRow),#new_col=Send(oTargeted,@GetCol),
+               #fine_row=Send(oTargeted,@GetFineRow),#fine_col=Send(oTargeted,@GetFineCol));
+   
+   propagate;
+   }
+
+
 end
 ////////////////////////////////////////////////////////////////////////////////

@@ -84,15 +84,20 @@ messages:
 
    DoSpellEffects(who=$, lTargets = $, iSpellPower=0)
    {
-      local oRoom, i, iChance, oHold;
+      local oRoom, i, iChance, oHold, oSmoker, oPlayer;
 
       oRoom = Send(who,@GetOwner);
+      oPlayer = who;
 
       // What's our chance to affect the target?
       iChance = 33 + ((2 * iSpellPower) / 3);
 
       // Find the hold spell to temporarily hold monsters
       oHold = Send(SYS,@FindSpellByNum,#num=SID_HOLD);
+
+      oSmoker = Create(&Smoker,#seed=[oPlayer,1,1000,0,0,0,0,0,0]);
+      Send(oRoom,@NewHold,#what=oSmoker,#new_row=Send(oPlayer,@GetRow),#new_col=Send(oPlayer,@GetCol),
+      #fine_row=Send(oPlayer,@GetFineRow),#fine_col=Send(oPlayer,@GetFineCol));
 
       if IsClass(who,&Player)
       {
