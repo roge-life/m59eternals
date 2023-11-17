@@ -9250,8 +9250,8 @@ messages:
          // Delete evil twins we created.
          Send(self,@RemoveAllCreatedEvilTwins);
 
-         // Spend Rods
-         Send(self,@SpendAllRods);
+         // Spend Rods(Uncomment to enable)
+         // Send(self,@SpendAllRods);
          
          Send(self,@MsgSendUser,#message_rsc=user_self_phase_out,
                #parm1=(Send(self,@GetRemainingPhaseTime)/1000));
